@@ -70,18 +70,34 @@ class TestBowlingGame < Test::Unit::TestCase
 
   def test_strike_adds_next_two_rolls
     # --------------------
-    frame_1.bowl(10)  # 20
+    frame_1.bowl(10)  # 12
     # --------------------
-    frame_2.bowl(3)   # 11
-    frame_2.bowl(7)
+    frame_2.bowl(1)   # 2
+    frame_2.bowl(1)
     # --------------------
-    frame_3.bowl(1)   # 2
-    frame_3.bowl(1)
+    assert(game.score_game == 14)
+  end
+
+  def test_spare_adds_next_roll
     # --------------------
-    p game.all_rolls
-    p game.to_num(game.all_rolls)
-    p game.score_game
-    assert(game.score_game == 33)
+    frame_1.bowl(9)  # 11
+    frame_1.bowl(1)
+    # --------------------
+    frame_2.bowl(1)   # 2
+    frame_2.bowl(1)
+    # --------------------
+    assert(game.score_game == 13)
+  end
+
+  def test_turkey_is_scored_accurately
+    # --------------------
+    frame_1.bowl(10)  # 30
+    # --------------------
+    frame_2.bowl(10)  # 20
+    # --------------------
+    frame_3.bowl(10)  # 10
+    # --------------------
+    assert(game.score_game == 60)
   end
 
   def teardown
