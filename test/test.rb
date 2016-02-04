@@ -73,15 +73,15 @@ class TestBowlingGame < Test::Unit::TestCase
     frame_1.bowl(10)  # 20
     # --------------------
     frame_2.bowl(3)   # 11
-    frame_2.bowl(6)
+    frame_2.bowl(7)
     # --------------------
-    # frame_3.bowl(1)   # 2
-    # frame_3.bowl(1)
+    frame_3.bowl(1)   # 2
+    frame_3.bowl(1)
     # --------------------
     p game.all_rolls
     p game.to_num(game.all_rolls)
     p game.score_game
-    assert(game.score_game == 28)
+    assert(game.score_game == 33)
   end
 
   def teardown

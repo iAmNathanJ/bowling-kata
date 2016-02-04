@@ -28,12 +28,10 @@ class BowlingGame
     all_rolls.each_with_index.map do |roll, i|
       if(roll == "x")
         # add_frame! if i == 9
-        augment = to_num(all_rolls)[i+1] + to_num(all_rolls)[i+2]
-        10 + augment
+        10 + to_num(all_rolls)[i+1] + to_num(all_rolls)[i+2]
       elsif(roll == "/")
         # add_frame! if i == 9
-        augment = to_num(all_rolls)[i+1]
-        10 + augment
+        to_num(all_rolls)[i] + to_num(all_rolls)[i+1]
       else
         roll
       end
