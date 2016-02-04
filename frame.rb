@@ -8,7 +8,7 @@ class Frame
 
   def bowl(p = (rand * (10-pins)).round)
     raise "This frame is closed." if closed?
-    @rolls << p
+    @rolls << (p > 10 ? 10 : p)
   end
 
   def pins
