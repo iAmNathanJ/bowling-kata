@@ -9,36 +9,65 @@ class BowlingGame
   end
 
   def score_frame(frame)
-    if frame.pins == 10
-      frame.rolls.length == 1 ? 'x' : '/'
+    if frame.strike?
+      "x"
+    elsif frame.spare?
+      [frame.rolls[0], "/"]
     else
       frame.rolls
     end
   end
 
+  def all_rolls
+    @frames.inject([]) do |rolls, frame|
+      rolls << score_frame(frame)
+    end.flatten
+  end
+
+  def score_game
+    all_rolls.each_with_index.map do |roll, i|
+      if(roll == "x")
+        # add_frame! if i == 9
+        augment = to_num(all_rolls)[i+1] + to_num(all_rolls)[i+2]
+        10 + augment
+      elsif(roll == "/")
+        # add_frame! if i == 9
+        augment = to_num(all_rolls)[i+1]
+        10 + augment
+      else
+        roll
+      end
+    end.inject(:+)
+  end
+
+  def to_num(arr)
+    arr.each_with_index.map do |item, i|
+      if item == "x"
+        10
+      elsif item == "/"
+        10 - arr[i-1]
+      else
+        item
+      end
+    end
+  end
+
+
+  ### PRIVATE ##############################
+  private
+
   def auto_play
-    @frames.each do |frame|
+    frames.each do |frame|
       2.times do
         frame.bowl unless frame.closed?
       end
     end
-    @frames << Frame.new if score_frame(@frames[9]) == 'x' || '/'
+    frames << Frame.new if score_frame(@frames[9]) == 'x'
   end
 
-  def score_game
-    i = 0
-    @frames.inject(0) do |score, frame|
-      i += 1
-      modifier = if score_frame(frame) == "x"
-        @frames[i].pins
-      elsif score_frame(frame) == "/"
-        @frames[i].rolls[0]
-      end
-      score + frame.pins + (modifier || 0)
-    end
+  def add_frame!
+    frames << Frame.new if score_frame(@frames[9]) == 'x'
   end
-
-  private
 
   def build_frames
     (1..10).inject([]) do |frames|
@@ -50,4 +79,4 @@ end
 
 # game = BowlingGame.new
 # game.auto_play
-# p game.score_game
+# p game.all_rolls
