@@ -2,15 +2,10 @@ require_relative "frame"
 
 class BowlingGame
 
-  attr_accessor :frames, :current_frame
+  attr_accessor :frames
 
   def initialize
     @frames = build_frames
-    @current_frame = 0
-  end
-
-  def next_frame
-    @current_frame += 1
   end
 
   def score_frame(frame)
@@ -27,17 +22,24 @@ class BowlingGame
         2.times do
           frame.bowl unless frame.closed?
         end
-        next_frame
         p score_frame(frame)
       rescue => e
         e.message
       end
     end
+    @frames << Frame.new if score_frame(@frames[9]) == 'x' || '/'
   end
 
   def score_game
+    i = 0
     @frames.inject(0) do |score, frame|
-      score + score_frame(frame)
+      i += 1
+      modifier = if score_frame(frame) == "x"
+        @frames[i].pins
+      elsif score_frame(frame) == "/"
+        @frames[i].rolls[0]
+      end
+      score + frame.pins + (modifier || 0)
     end
   end
 
@@ -53,3 +55,4 @@ end
 
 game = BowlingGame.new
 game.auto_play
+p game.score_game
