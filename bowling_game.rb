@@ -18,13 +18,8 @@ class BowlingGame
 
   def auto_play
     @frames.each do |frame|
-      begin
-        2.times do
-          frame.bowl unless frame.closed?
-        end
-        p score_frame(frame)
-      rescue => e
-        e.message
+      2.times do
+        frame.bowl unless frame.closed?
       end
     end
     @frames << Frame.new if score_frame(@frames[9]) == 'x' || '/'
@@ -53,6 +48,6 @@ class BowlingGame
 
 end
 
-game = BowlingGame.new
-game.auto_play
-p game.score_game
+# game = BowlingGame.new
+# game.auto_play
+# p game.score_game
