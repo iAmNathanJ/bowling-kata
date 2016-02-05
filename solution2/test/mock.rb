@@ -47,7 +47,7 @@ class FrameSet
     ]
   end
 
-  def self.mixed_frames # points
+  def self.mixed_frames # 139 points
     [
       { :strike => false, :spare => true, :rolls => [5, 5], :complete => true },
       { :strike => true, :spare => false, :rolls => [10], :complete => true },
