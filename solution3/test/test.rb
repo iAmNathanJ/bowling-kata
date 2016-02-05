@@ -4,14 +4,34 @@ require_relative "../bowling_game"
 
 class TestBowling < Test::Unit::TestCase
 
-  attr_accessor :frameset
+  attr_accessor :game
 
   def setup
     @game = BowlingGame.new
-    @frameset = Frameset.frameset
   end
 
-  def test_stuff
+  def test_game_scores_all_strikes
+    fs = FrameSet::all_strikes
+    score = game.score_game(fs)
+    assert(score == 300)
+  end
+
+  def test_game_scores_all_spares
+    fs = FrameSet::all_spares
+    score = game.score_game(fs)
+    assert(score == 150)
+  end
+
+  def test_game_scores_all_open
+    fs = FrameSet::all_open
+    score = game.score_game(fs)
+    assert(score == 20)
+  end
+
+  def test_game_scores_mixed_frames
+    fs = FrameSet::mixed_frames
+    score = game.score_game(fs)
+    assert(score == 139)
   end
 
 end
