@@ -15,4 +15,5 @@ class FrameSet
   def self.mixed_frames # 139 points
     [5, "/", "X", 5, 4, 5, "/", 5, 4, 5, 4, 5, 4, 5, 4, 5, "/", "X", 5, 5]
   end
+  
 end
