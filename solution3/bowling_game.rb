@@ -3,9 +3,17 @@ class BowlingGame
   def score_game(fs)
     fs.each_with_index.map do |roll, i|
       if roll == "X"
-        calc_strike(i, fs)
+        if(fs.length - i > 3)
+          calc_strike(i, fs)
+        else
+          10
+        end
       elsif roll == "/"
-        calc_spare(i, fs)
+        if(fs.length - i > 2)
+          calc_spare(i, fs)
+        else
+          5
+        end
       else
         roll
       end
