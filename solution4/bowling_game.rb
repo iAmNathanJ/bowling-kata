@@ -24,7 +24,6 @@ class BowlingGame
       end
       if score.last + (score << shift(rollz)).last == 10
         score << rollz.fetch(0, 0)
-        next
       end
     end
     score.reduce(:+)
