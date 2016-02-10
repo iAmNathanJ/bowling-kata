@@ -69,6 +69,13 @@ class TestBowlingGame < Test::Unit::TestCase
     assert_equal(300, game.score)
   end
 
+  def test_game_scores_50_strikes
+    50.times do
+      game.bowl(10)
+    end
+    assert_equal(300, game.score)
+  end
+
   def teardown
   end
 
