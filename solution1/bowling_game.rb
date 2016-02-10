@@ -2,79 +2,63 @@ require_relative "frame"
 
 class BowlingGame
 
+  MAX_FRAMES = 10
+
   attr_accessor :frames
 
   def initialize
-    @frames = build_frames
+    @frames = [Frame.new]
   end
 
-  def score_frame(frame)
-    if frame.strike?
-      "x"
-    elsif frame.spare?
-      [frame.rolls[0], "/"]
-    else
-      frame.rolls
-    end
+  def current_frame_num
+    frames.length - 1
   end
 
-  def all_rolls
-    @frames.inject([]) do |rolls, frame|
-      rolls << score_frame(frame)
-    end.flatten
+  def current_frame
+    frames[current_frame_num]
   end
 
-  def score_game
-    all_rolls.each_with_index.map do |roll, i|
-      if(roll == "x")
-        # add_frame! if i == 9
-        10 + (to_num(all_rolls)[i+1] || 0) + (to_num(all_rolls)[i+2] || 0)
-      elsif(roll == "/")
-        # add_frame! if i == 9
-        to_num(all_rolls)[i] + (to_num(all_rolls)[i+1] || 0)
-      else
-        roll
-      end
-    end.inject(:+)
-  end
-
-  def to_num(arr)
-    arr.each_with_index.map do |item, i|
-      if item == "x"
-        10
-      elsif item == "/"
-        10 - arr[i-1]
-      else
-        item
-      end
-    end
-  end
-
-
-  ### PRIVATE ##############################
-  private
-
-  def auto_play
-    frames.each do |frame|
-      2.times do
-        frame.bowl unless frame.closed?
-      end
-    end
-    frames << Frame.new if score_frame(@frames[9]) == 'x'
-  end
-
-  def add_frame!
-    frames << Frame.new if score_frame(@frames[9]) == 'x'
-  end
-
-  def build_frames
-    (1..10).inject([]) do |frames|
+  def advance_frame
+    if current_frame.done? && frames.size < MAX_FRAMES
       frames << Frame.new
     end
   end
 
-end
+  def offset_frame(n)
+    frames[current_frame_num + n]
+  end
 
-# game = BowlingGame.new
-# game.auto_play
-# p game.all_rolls
+  def bowl(pins)
+    current_frame.add(pins)
+    resolve_frames(pins)
+    advance_frame
+  end
+
+  
+
+  # def resolve_frames(pins)
+  #   if current_frame_num > 0
+  #     f1 = offset_frame(-1)
+  #     f1.modify(pins) if f1.spare? || f1.strike?
+  #   end
+  #   if current_frame_num > 1
+  #     f2 = offset_frame(-2)
+  #     f2.modify(pins) if f2.strike?
+  #   end
+  # end
+
+  def score_all_frames
+    frames.reduce(0) do |total, frame|
+      total + frame.total
+    end
+  end
+
+  def score_extra_rolls
+    0
+  end
+
+  def score
+    score_all_frames + score_extra_rolls
+  end
+
+end

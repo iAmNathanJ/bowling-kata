@@ -1,39 +1,38 @@
 class Frame
 
-  attr_accessor :rolls
+  attr_accessor :rolls, :modifier
 
   def initialize
     @rolls = []
+    @modifier = 0
   end
 
-  def bowl(p = (rand * (10-pins)).round)
-    raise "This frame is closed." if closed?
-    rolls << max_roll(p)
+  def add(pins)
+    rolls << pins
   end
 
-  def pins
-    rolls.inject(:+) || 0
+  def modify(pins)
+    @modifier += pins
   end
 
-  def strike?
-    pins == 10 && rolls.length == 1
+  def total_rolls
+    rolls.reduce(:+) || 0
+  end
+
+  def total
+    total_rolls + modifier
   end
 
   def spare?
-    pins == 10 && rolls.length == 2
+    rolls.size == 2 && total_rolls == 10
   end
 
-
-  ### PRIVATE ##############################
-  private
-
-  def closed?
-    rolls.length == 2 || pins == 10
+  def strike?
+    rolls.size == 1 && total_rolls == 10
   end
 
-  def max_roll(p)
-    remaining_pins = 10 - pins
-    p > remaining_pins ? remaining_pins : p
+  def done?
+    strike? || rolls.size == 2
   end
 
 end
