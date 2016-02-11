@@ -80,4 +80,4 @@ The key to simplifying the code is to get rid of frames all together. Even if th
 
 1. I'm still learning how to approach problems with code. Classic OOP utilizes classes and inheritance, but that doesn't mean that every small problem requires that much structure.
 
-2. Ruby has a lot of baked-in convenience. It's worth reading over the docs to discover stuff like [`Array.fetch(index, default)`](http://ruby-doc.org/core-2.2.0/Array.html#method-i-fetch), which allows you to return a fallback value if an array index is nil. Just one of many conveniences.
+2. Ruby has a lot of baked-in convenience. It's worth reading over the docs to discover stuff like [`Array.fetch`](http://ruby-doc.org/core-2.2.0/Array.html#method-i-fetch), which allows you to return a fallback value if an array index is nil. Just one of many conveniences.
