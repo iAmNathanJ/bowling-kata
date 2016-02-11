@@ -14,9 +14,8 @@ class BowlingGame
     rolls << pins
   end
 
-  def score
+  def score(rollz)
     score = []
-    rollz = rolls
     10.times do
       if(score << shift(rollz)).last == 10
         score << rollz.fetch(0, 0) << rollz.fetch(1, 0)
