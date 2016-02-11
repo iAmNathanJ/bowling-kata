@@ -15,17 +15,17 @@ class BowlingGame
   end
 
   def score(rollz)
-    score = []
+    points = []
     10.times do
-      if(score << shift(rollz)).last == 10
-        score << rollz.fetch(0, 0) << rollz.fetch(1, 0)
+      if(points << shift(rollz)).last == 10
+        points << rollz.fetch(0, 0) << rollz.fetch(1, 0)
         next
       end
-      if score.last + (score << shift(rollz)).last == 10
-        score << rollz.fetch(0, 0)
+      if points.last + (points << shift(rollz)).last == 10
+        points << rollz.fetch(0, 0)
       end
     end
-    score.reduce(:+)
+    points.reduce(:+)
   end
 
   private
