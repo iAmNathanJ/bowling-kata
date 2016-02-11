@@ -1,6 +1,6 @@
 # Bowling Kata
 
-2015-02-10  
+**2015-02-10**  
 The essence of this kata is simple. Score a bowling game based on a series of frames. It's not as straight forward as it seems. I've been building it up and tearing it down over and over, and it's been pretty ugly. I started by creating
 a class for both `Frame` and `Game`. I thought that a frame should have some responsibility... Storing it's own rolls, labeling itself a strike or spare. I think that makes sense. The game would own a set of ten frames, and allow you to load them up with their respective rolls.
 
