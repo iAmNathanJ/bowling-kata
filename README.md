@@ -4,7 +4,7 @@
 The essence of this kata is simple. Score a bowling game based on a series of frames. It's not as straight forward as it seems. I've been building it up and tearing it down over and over, and it's been pretty ugly. I started by creating
 a class for both `Frame` and `Game`. I thought that a frame should have some responsibility... Storing it's own rolls, labeling itself a strike or spare. I think that makes sense. The game would own a set of ten frames, and allow you to load them up with their respective rolls.
 
-The trick to this kata is to focus on scoring. I think having a frame class can help manage data and game play. That's all great, but to score a bowling game you need a broader context than a single frame. Frame scores can rely on subsequent rolls, and those subsequent rolls can happen across one or two frames. And then there's the possibility of extra frames that only have one or two rolls and they aren't really the same as the other frames because they only serve to resolve the overall game score. By locking up the rolls inside of frames, the scoring of the game becomes tricky and the code to make it work is yuck.
+The trick to this kata is to focus on scoring. I think having a frame class can help manage data and game play. That's all great, but to score a bowling game you need a broader context than a single frame. Frame scores can rely on subsequent rolls, and those subsequent rolls can happen across one or two frames. And then there's the possibility of extra frames that only have one or two rolls and they aren't really the same as the other frames because they only serve to resolve the overall game score. Not so simple. By locking up the rolls inside of frames, the scoring of the game becomes tricky and the code to make it work is yuck.
 
 The following was one of my earlier solutions. It assumes access to a dataset made up of frames, as described above. For brevity, I'm just showing the scoring methods.
 ```ruby
@@ -74,8 +74,10 @@ class BowlingGame
 
 end
 ```
-The key to simplifying the code is to get rid of frames all together. Even if the data was stored in a set of frames, the best way to score it would be to pull it out into a flat array. Another important part of this solution is that it loops ten times exactly. No reliance on iterating over all frames. This means that there are no special conditions to deal with for extra frames. If they exist, they do their job in adding to the total score, but they don't get iterated themselves. It's pretty robust. It can handle incomplete frame sets and It can handle more than extra frames. Twelve strikes will score 300 and fifty strikes will still score 300.
+The key to simplifying the code is to get rid of frames all together. Even if the data was stored in a set of frames, the best way to score it would be to pull it out into a flat array. Another important part of this solution is that it loops ten times exactly. No reliance on iterating over all frames. This means that there are no special conditions to deal with for extra frames. If they exist, they do their job in adding to the total score, but they don't get iterated themselves. It's pretty robust. It can handle incomplete frame sets and It can handle more than extra frames. Twelve strikes will score 300 and fifty strikes will score 300.
 
 ##Take away
 
-[`Array.fetch(index, default)`](http://ruby-doc.org/core-2.2.0/Array.html#method-i-fetch)
+1. I'm still learning how to approach problems with code. Classic OOP utilizes classes and inheritance, but that doesn't mean that every small problem requires that much structure.
+
+2. Ruby has a lot of baked-in convenience. It's worth reading over the docs to discover stuff like [`Array.fetch(index, default)`](http://ruby-doc.org/core-2.2.0/Array.html#method-i-fetch), which allows you to return a fallback value if an array index is nil. Just one of many conveniences.
