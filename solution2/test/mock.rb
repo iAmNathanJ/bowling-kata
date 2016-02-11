@@ -15,6 +15,16 @@ class FrameSet
     ]
   end
 
+  def self.incomplete_frames # 10 points
+    [
+      { :strike => false, :spare => false, :rolls => [1, 1], :complete => true },
+      { :strike => false, :spare => false, :rolls => [1, 1], :complete => true },
+      { :strike => false, :spare => false, :rolls => [1, 1], :complete => true },
+      { :strike => false, :spare => false, :rolls => [1, 1], :complete => true },
+      { :strike => false, :spare => false, :rolls => [1, 1], :complete => true }
+    ]
+  end
+
   def self.all_strikes # 300 points
     [
       { :strike => true, :spare => false, :rolls => [10], :complete => true },
@@ -28,6 +38,16 @@ class FrameSet
       { :strike => true, :spare => false, :rolls => [10], :complete => true },
       { :strike => true, :spare => false, :rolls => [10], :complete => true },
       { :strike => false, :spare => false, :rolls => [10, 10], :complete => true }
+    ]
+  end
+
+  def self.incomplete_strikes # 120 points
+    [
+      { :strike => true, :spare => false, :rolls => [10], :complete => true },
+      { :strike => true, :spare => false, :rolls => [10], :complete => true },
+      { :strike => true, :spare => false, :rolls => [10], :complete => true },
+      { :strike => true, :spare => false, :rolls => [10], :complete => true },
+      { :strike => true, :spare => false, :rolls => [10], :complete => true }
     ]
   end
 
