@@ -54,17 +54,17 @@ After looking over the work that a couple cohorts did, I found a much cleaner so
 class BowlingGame
 
   def score(rolls)
-    score = []
+    points = []
     10.times do
-      if(score << shift(rolls)).last == 10
-        score << rolls.fetch(0, 0) << rolls.fetch(1, 0)
+      if(points << shift(rolls)).last == 10
+        points << rolls.fetch(0, 0) << rolls.fetch(1, 0)
         next
       end
-      if score.last + (score << shift(rolls)).last == 10
-        score << rolls.fetch(0, 0)
+      if points.last + (points << shift(rolls)).last == 10
+        points << rolls.fetch(0, 0)
       end
     end
-    score.reduce(:+)
+    points.reduce(:+)
   end
 
   private
