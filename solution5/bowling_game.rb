@@ -24,7 +24,6 @@ class BowlingGame
         points << rollz.fetch(cur_roll, 0) << rollz.fetch(cur_roll+1, 0)
         next
       end
-
       if points.last + rollz.fetch(cur_roll, 0) == 10
         points << rollz.fetch(cur_roll+1, 0)
       end
