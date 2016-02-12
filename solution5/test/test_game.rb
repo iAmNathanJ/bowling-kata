@@ -1,87 +1,40 @@
 require "test/unit"
-require_relative "../bowling_game"
+require_relative "../game"
+require_relative "mock"
 
-class TestBowlingGame < Test::Unit::TestCase
+class TestGameDriver < Test::Unit::TestCase
 
-  attr_accessor :game
+  attr_accessor :driver
 
   def setup
-    @game = BowlingGame.new
+    @game = GameDriver.new(MockGame)
   end
 
   def test_game_is_a_thing
-    assert(game != nil, "Game doesn't exist.")
+    assert_not_nil(game)
   end
 
-  def test_game_has_rolls
-    assert(game.rolls != nil)
-    assert(game.rolls.class == Array)
+  def test_game_has_players
+    assert_not_nil(game.players)
+    assert_equal(Hash, game.players.class)
   end
 
-  def test_game_has_methods
-    assert_respond_to(game, :bowl)
-    assert_respond_to(game, :score)
+  def test_players_can_be_added
+    game.add_player("Suzy")
+    assert_equal("Suzy", game.players["suzy"][:name])
   end
 
-  def test_game_scores_open_frames
-    game.bowl(1)
-    game.bowl(1)
-    game.bowl(1)
-    game.bowl(1)
-    assert_equal(4, game.score(game.rolls))
-  end
-
-  def test_game_scores_spare
-    game.bowl(5)
-    game.bowl(5)
-    game.bowl(5)
-    assert_equal(20, game.score(game.rolls))
-  end
-
-  def test_game_scores_strike
-    game.bowl(10)
-    game.bowl(10)
-    game.bowl(10)
-    assert_equal(60, game.score(game.rolls))
-  end
-
-  def test_game_scores_mixed_frames
-    game.bowl(10)
-    game.bowl(1)
-    game.bowl(1)
-    game.bowl(5)
-    game.bowl(5)
-    game.bowl(1)
-    assert_equal(26, game.score(game.rolls))
-  end
-
-  def test_game_scores_all_spares
-    22.times do
-      game.bowl(5)
+  def test_players_cannot_have_duplicate_names
+    game.add_player("Suzy")
+    assert_raise do
+      game.add_player("Suzy")
     end
-    assert_equal(150, game.score(game.rolls))
   end
 
-  def test_game_scores_all_strikes
-    12.times do
-      game.bowl(10)
-    end
-    assert_equal(300, game.score(game.rolls))
-  end
-
-  def test_game_scores_50_strikes
-    50.times do
-      game.bowl(10)
-    end
-    assert_equal(300, game.score(game.rolls))
-  end
-
-  def test_game_scoring_doesnt_change_data
-    12.times do
-      game.bowl(10)
-    end
-    assert_equal(300, game.score(game.rolls))
-    assert_equal(300, game.score(game.rolls))
+  def test_players_initial_score
+    game.add_player("Suzy")
+    score = game.players["suzy"][:score]
+    assert_equal(0, score)
   end
 
   def teardown
