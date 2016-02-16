@@ -4,10 +4,10 @@ require_relative "mock"
 
 class TestGameDriver < Test::Unit::TestCase
 
-  attr_accessor :driver
+  attr_accessor :game
 
   def setup
-    @game = GameDriver.new(MockGame)
+    @game = Game.new
   end
 
   def test_game_is_a_thing
@@ -33,8 +33,15 @@ class TestGameDriver < Test::Unit::TestCase
 
   def test_players_initial_score
     game.add_player("Suzy")
-    score = game.players["suzy"][:score]
+    score = game.get_score("suzy")
     assert_equal(0, score)
+  end
+
+  def test_player_score_can_be_updated
+    game.add_player("Suzy")
+    game.update_score("suzy", 100)
+    score = game.get_score("suzy")
+    assert_equal(100, score)
   end
 
   def teardown
