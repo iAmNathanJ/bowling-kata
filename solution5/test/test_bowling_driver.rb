@@ -59,12 +59,16 @@ class TestBowlingDriver < Test::Unit::TestCase
       player_1_rolls = game_status[:players][0][:game].rolls
       player_2_rolls = game_status[:players][1][:game].rolls
       player_3_rolls = game_status[:players][2][:game].rolls
-      assert_equal([10], player_1_frame)
-      assert_equal([5, 5], player_2_frame)
-      assert_equal([1, 0], player_3_frame)
+      assert_equal([10], player_1_rolls)
+      assert_equal([5, 5], player_2_rolls)
+      assert_equal([1, 0], player_3_rolls)
     end
 
     @mock_io.reset
+  end
+
+  def test_plays_all_frames
+    driver.play
   end
 
   def teardown
