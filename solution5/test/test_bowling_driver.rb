@@ -72,6 +72,7 @@ class TestBowlingDriver < Test::Unit::TestCase
     # 10.times do
     #   driver.play_frame { |game_status| }
     # end
+
   end
 
   def test_plays_all_frames
