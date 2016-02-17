@@ -22,15 +22,26 @@ class BowlingGameDriver
     yield(status[:players].last)
   end
 
+  def player_to_s(player)
+    "#{player[:name][:first][0]}. #{player[:name][:last]}"
+  end
+
   def add_players
     adding_players = true
 
     while adding_players
       # Get player name
-      player_name = @io.request "Add a player (name) "
+      @io.write "Add a player\n"
+      first_name = @io.request "(first name) "
+      last_name = @io.request "(last name) "
+
+      player_name = {
+        first: first_name,
+        last: last_name
+      }
 
       # Add player
-      add_player(player_name) { |player| @io.write "\n#{player[:name]} Added!\n\n" }
+      add_player(player_name) { |player| @io.write "\n#{player_to_s(player)} Added!\n\n" }
 
       # Add another player?
       again = @io.request("Add another? (y/n) ").downcase
@@ -45,7 +56,7 @@ class BowlingGameDriver
     status[:players].each do |player|
 
       # Get first roll
-      roll_1 = @io.request("#{player[:name]}: How many pins would you like to knock down? ").to_i
+      roll_1 = @io.request("#{player_to_s(player)}: How many pins would you like to knock down? ").to_i
       player[:game].bowl(roll_1)
 
       # If strike, next player is up
@@ -72,7 +83,7 @@ class BowlingGameDriver
   def play
     add_players do |players|
       player_list = []
-      players.each { |player| player_list << player[:name] }
+      players.each { |player| player_list << player_to_s(player) }
       @io.write "\nPlayers added: #{player_list.join(', ')}\n\n"
     end
 
@@ -80,7 +91,7 @@ class BowlingGameDriver
       play_frame do |stats|
         @io.write "=================\n"
         @io.write "Current Scores\n"
-        stats[:players].each { |player| @io.write "#{player[:name]}: #{player[:game].score}\n" }
+        stats[:players].each { |player| @io.write "#{player_to_s(player)}: #{player[:game].score}\n" }
         @io.write "=================\n"
       end
     end while(!all_done?)
