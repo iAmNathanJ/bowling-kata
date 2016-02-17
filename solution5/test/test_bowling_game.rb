@@ -1,5 +1,5 @@
 require "test/unit"
-require "../bowling_game"
+require_relative "../bowling_game"
 
 class TestBowlingGame < Test::Unit::TestCase
 
