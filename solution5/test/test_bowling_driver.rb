@@ -67,6 +67,13 @@ class TestBowlingDriver < Test::Unit::TestCase
     @mock_io.reset
   end
 
+  def test_game_done
+    # driver.add_players { |players| }
+    # 10.times do
+    #   driver.play_frame { |game_status| }
+    # end
+  end
+
   def test_plays_all_frames
     driver.play
   end
