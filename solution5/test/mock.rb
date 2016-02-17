@@ -5,8 +5,13 @@ class MockIO
   def initialize
     @questions = [
       {
-        question: regexify("Add a player (name) "),
-        answers: ["Suzy", "Nate", "Karl"],
+        question: regexify("(first name) "),
+        answers: ["Suzy", "Nate", "Nathan"],
+        index: 0
+      },
+      {
+        question: regexify("(last name) "),
+        answers: ["Riska", "Jacobs", "Jr."],
         index: 0
       },
       {
