@@ -105,7 +105,7 @@ class BowlingGameDriver
 
   def winner
     status[:players].reduce do |winner, player|
-      winner.game.score > player.game.score ? winner.game.score : player.game.score
+      (winner.game.score > player.game.score) ? winner.to_s : player.to_s
     end
   end
 
