@@ -1,4 +1,4 @@
-require_relative 'bowling_game'
+require_relative "bowling_game"
 
 class Console
   def write(msg); print msg; end
@@ -76,26 +76,32 @@ class BowlingGameDriver
       @io.write "\nPlayers added: #{player_list.join(', ')}\n\n"
     end
 
-    10.times do
+    begin
       play_frame do |stats|
         @io.write "=================\n"
         @io.write "Current Scores\n"
         stats[:players].each { |player| @io.write "#{player[:name]}: #{player[:game].score}\n" }
         @io.write "=================\n"
       end
-    end
+    end while(!all_done?)
+    @io.write(winner)
   end
 
-  def all_players_done?
-
+  def all_done?
+    done = true
+    status[:players].each do |player|
+      if !player[:game].complete?
+        done = false
+        break
+      end
+    end
+    done
   end
 
   def winner
-    # if all players game is NOT done return false
-    # check which player has highest score / return player
-    # players.reduce do |winner, player|
-    #   winner[:score] > player[:score] ? winner : player
-    # end
+    status[:players].reduce do |winner, player|
+      winner[:game].score > player[:game].score ? winner[:game].score : player[:game].score
+    end
   end
 
 end
