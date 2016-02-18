@@ -17,6 +17,12 @@ class MockIO
     @sent
   end
 
+  def add_response(request, *additional_response)
+    find_request(request) do |req|
+      req[:response] += additional_response
+    end
+  end
+
   def add_requests(*reqs)
     reqs
       .map { |req| setup_req(req) }
@@ -29,9 +35,7 @@ class MockIO
 
   def reset_response_queue(target = nil)
     if target
-      find_request(target) do |req|
-        req[:index] = 0
-      end
+      find_request(target) { |req| req[:index] = 0 }
     else
       @requests.each { |req| req[:index] = 0 }
     end
