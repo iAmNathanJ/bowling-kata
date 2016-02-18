@@ -11,6 +11,9 @@ class TestBowlingDriver < Test::Unit::TestCase
     @driver = BowlingGameDriver.new(@mock_io)
   end
 
+  def teardown
+  end
+
   def test_driver_has_players
     players = driver.status[:players]
     assert_not_nil(players)
@@ -56,30 +59,26 @@ class TestBowlingDriver < Test::Unit::TestCase
   def test_plays_frame
     driver.add_players { |players| }
     driver.play_frame do |game_status|
-      player_1_rolls = game_status[:players][0][:game].rolls
-      player_2_rolls = game_status[:players][1][:game].rolls
-      player_3_rolls = game_status[:players][2][:game].rolls
-      assert_equal([10], player_1_rolls)
-      assert_equal([5, 5], player_2_rolls)
-      assert_equal([1, 0], player_3_rolls)
+      player_1 = game_status[:players][0]
+      player_2 = game_status[:players][1]
+      player_3 = game_status[:players][2]
+      assert_equal([10], player_1[:game].rolls)
+      assert_equal([5, 5], player_2[:game].rolls)
+      assert_equal([1, 0], player_3[:game].rolls)
     end
 
     @mock_io.reset
   end
 
   def test_game_done
-    # driver.add_players { |players| }
-    # 10.times do
-    #   driver.play_frame { |game_status| }
-    # end
-
+    driver.add_players { |players| }
+    10.times do
+      driver.play_frame { |game_status| }
+    end
   end
 
   def test_plays_all_frames
     # driver.play
-  end
-
-  def teardown
   end
 
 end
