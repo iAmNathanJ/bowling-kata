@@ -1,4 +1,4 @@
-class MockSR
+class MockInput
 
   attr_reader :sent, :received
 
@@ -10,10 +10,6 @@ class MockSR
       req[:index] = 0
       req
     end
-  end
-
-  define_method(@send) do |msg|
-    received = msg;
   end
 
   define_method(@request) do |msg|
@@ -28,6 +24,10 @@ class MockSR
     sent
   end
 
+  define_method("send") do |msg|
+    received = msg;
+  end
+
   def reset
     @requests.each { |q| q[:index] = 0 }
   end
@@ -39,7 +39,7 @@ class MockSR
 
 end
 
-mock = MockSR.new("send", "request",
+mock = MockInput.new("send", "request",
   {
     request: "Add a player (name) ",
     answers: ["Suzy", "Nate", "Karl"]
@@ -54,5 +54,4 @@ mock = MockSR.new("send", "request",
   }
 )
 
-mock.make_request("request")
 p mock.request("Add a player (name) ")
