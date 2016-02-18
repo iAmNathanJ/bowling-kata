@@ -89,7 +89,7 @@ class BowlingGameDriver
         @io.write "=================\n"
       end
     end while(!all_done?)
-    @io.write(winner)
+    @io.write("#{game_winner.to_s} is the winner!")
   end
 
   def all_done?
@@ -103,9 +103,9 @@ class BowlingGameDriver
     done
   end
 
-  def winner
-    status[:players].reduce do |winner, player|
-      (winner.game.score > player.game.score) ? winner.to_s : player.to_s
+  def game_winner
+    status[:players].reduce do |winner, next_player|
+      (winner.game.score > next_player.game.score) ? winner : next_player
     end
   end
 
