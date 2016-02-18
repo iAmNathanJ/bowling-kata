@@ -36,33 +36,29 @@ class TestBowlingDriver < Test::Unit::TestCase
 
   def test_driver_has_players
     players = driver.status[:players]
-    assert_not_nil(players)
     assert_equal(Array, players.class)
   end
 
   def test_players_can_be_added
     driver.add_player({ first: "Suzy", last: "Riska" }) do |player|
-      assert_equal("S. Riska", player.to_s)
-      @mock_io.write "#{player.to_s} Added!"
-      assert_equal("S. Riska Added!", @mock_io.sent)
+      assert_not_nil(player)
     end
   end
 
-  def test_adds_players_forever
+  def test_adds_players_until_input_is_n
     driver.add_players do |players|
       assert_equal(3, players.length)
-      assert_equal("S. Riska", players[0].to_s)
-      assert_equal("N. Jacobs", players[1].to_s)
-      assert_equal("N. Jr.", players[2].to_s)
     end
 
-    @mock_io.reset_response_queue
+    @mock_io.add_response("(first name)", "Ryan", "Rob", "Kasey")
+    @mock_io.add_response("(last name)", "Cromwell", "Tarr", "Bon")
+    @mock_io.reset_response_queue("Add another?")
 
     driver.add_players do |players|
       assert_equal(6, players.length)
-      assert_equal("S. Riska", players[3].to_s)
-      assert_equal("N. Jacobs", players[4].to_s)
-      assert_equal("N. Jr.", players[5].to_s)
+      assert_equal("R. Cromwell", players[3].to_s)
+      assert_equal("R. Tarr", players[4].to_s)
+      assert_equal("K. Bon", players[5].to_s)
     end
 
     @mock_io.reset_response_queue
