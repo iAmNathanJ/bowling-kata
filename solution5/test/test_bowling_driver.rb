@@ -21,38 +21,37 @@ class TestBowlingDriver < Test::Unit::TestCase
   end
 
   def test_players_can_be_added
-    driver.add_player("Suzy") do |player|
-      assert_equal("Suzy", player[:name])
-      assert_equal(BowlingGame, player[:game].class)
-      @mock_io.write "#{player[:name]} Added!"
-      assert_equal("Suzy Added!", @mock_io.output)
+    driver.add_player({ first: "Suzy", last: "Riska" }) do |player|
+      assert_equal("Suzy", player.name[:first])
+      @mock_io.write "#{player.to_s} Added!"
+      assert_equal("S. Riska Added!", @mock_io.output)
     end
   end
 
   def test_adds_players_forever
     driver.add_players do |players|
       assert_equal(3, players.length)
-      assert_equal("S. Riska", driver.player_to_s(players[0]))
-      assert_equal("N. Jacobs", driver.player_to_s(players[1]))
-      assert_equal("N. Jr.", driver.player_to_s(players[2]))
+      assert_equal("S. Riska", players[0].to_s)
+      assert_equal("N. Jacobs", players[1].to_s)
+      assert_equal("N. Jr.", players[2].to_s)
     end
 
     @mock_io.reset
 
     driver.add_players do |players|
       assert_equal(6, players.length)
-      assert_equal("S. Riska", driver.player_to_s(players[3]))
-      assert_equal("N. Jacobs", driver.player_to_s(players[4]))
-      assert_equal("N. Jr.", driver.player_to_s(players[5]))
+      assert_equal("S. Riska", players[3].to_s)
+      assert_equal("N. Jacobs", players[4].to_s)
+      assert_equal("N. Jr.", players[5].to_s)
     end
 
     @mock_io.reset
 
     driver.add_players do |players|
       assert_equal(9, players.length)
-      assert_equal("S. Riska", driver.player_to_s(players[6]))
-      assert_equal("N. Jacobs", driver.player_to_s(players[7]))
-      assert_equal("N. Jr.", driver.player_to_s(players[8]))
+      assert_equal("S. Riska", players[6].to_s)
+      assert_equal("N. Jacobs", players[7].to_s)
+      assert_equal("N. Jr.", players[8].to_s)
     end
   end
 
@@ -62,9 +61,9 @@ class TestBowlingDriver < Test::Unit::TestCase
       player_1 = game_status[:players][0]
       player_2 = game_status[:players][1]
       player_3 = game_status[:players][2]
-      assert_equal([10], player_1[:game].rolls)
-      assert_equal([5, 5], player_2[:game].rolls)
-      assert_equal([1, 0], player_3[:game].rolls)
+      assert_equal([10], player_1.game.rolls)
+      assert_equal([5, 5], player_2.game.rolls)
+      assert_equal([1, 0], player_3.game.rolls)
     end
 
     @mock_io.reset
@@ -78,7 +77,7 @@ class TestBowlingDriver < Test::Unit::TestCase
   end
 
   def test_plays_all_frames
-    # driver.play
+    driver.play
   end
 
 end
