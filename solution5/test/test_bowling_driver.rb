@@ -8,6 +8,26 @@ class TestBowlingDriver < Test::Unit::TestCase
 
   def setup
     @mock_io = MockIO.new
+
+    @mock_io.add_requests(
+      {
+        request: "(first name)",
+        response: ["Suzy", "Nate", "Nathan"]
+      },
+      {
+        request: "(last name)",
+        response: ["Riska", "Jacobs", "Jr."]
+      },
+      {
+        request: "Add another?",
+        response: ["y", "y", "n"]
+      },
+      {
+        request: "How many pins would you like to knock down?",
+        response: [10, 5, 5, 1]
+      }
+    )
+
     @driver = BowlingGameDriver.new(@mock_io)
   end
 
@@ -22,9 +42,9 @@ class TestBowlingDriver < Test::Unit::TestCase
 
   def test_players_can_be_added
     driver.add_player({ first: "Suzy", last: "Riska" }) do |player|
-      assert_equal("Suzy", player.name[:first])
+      assert_equal("S. Riska", player.to_s)
       @mock_io.write "#{player.to_s} Added!"
-      assert_equal("S. Riska Added!", @mock_io.output)
+      assert_equal("S. Riska Added!", @mock_io.sent)
     end
   end
 
@@ -36,7 +56,7 @@ class TestBowlingDriver < Test::Unit::TestCase
       assert_equal("N. Jr.", players[2].to_s)
     end
 
-    @mock_io.reset
+    @mock_io.reset_response_queue
 
     driver.add_players do |players|
       assert_equal(6, players.length)
@@ -45,7 +65,7 @@ class TestBowlingDriver < Test::Unit::TestCase
       assert_equal("N. Jr.", players[5].to_s)
     end
 
-    @mock_io.reset
+    @mock_io.reset_response_queue
 
     driver.add_players do |players|
       assert_equal(9, players.length)
@@ -65,8 +85,6 @@ class TestBowlingDriver < Test::Unit::TestCase
       assert_equal([5, 5], player_2.game.rolls)
       assert_equal([1, 0], player_3.game.rolls)
     end
-
-    @mock_io.reset
   end
 
   def test_game_done
