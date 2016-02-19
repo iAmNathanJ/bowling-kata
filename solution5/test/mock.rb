@@ -4,6 +4,11 @@ class MockIO
 
   def initialize
     @requests = []
+    # Example request:
+    # {
+    #   request: "this is my request",
+    #   response: ["response1", "response2", "response2"]
+    # }
   end
 
   def write(msg); @sent = msg; end
